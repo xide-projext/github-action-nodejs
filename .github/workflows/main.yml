@@ -31,7 +31,6 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOSTNAME: ${{secrets.SSH_HOST}}
           USER_NAME: ${{secrets.USER_NAME}}
-    - name: set key
       run: echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
     - name: scp
       run: scp  -i private_key README.md ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/app
