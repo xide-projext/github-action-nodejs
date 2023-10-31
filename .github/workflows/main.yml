@@ -26,3 +26,19 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Build & Deploy
+      env:
+          PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOSTNAME: ${{secrets.SSH_HOST}}
+          USER_NAME: ${{secrets.USER_NAME}}
+    
+      run: |
+        echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+      
+        scp  -i private_key README.md ${USER_NAME}@${HOSTNAME}:/home/ec2-user/app
+
+        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+            cd /home/ec2-user/app &&
+            ls README.md
+            '
+
