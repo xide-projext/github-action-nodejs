@@ -35,7 +35,7 @@ jobs:
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
       
-        scp  -i private_key README.md ${USER_NAME}@${HOSTNAME}:/home/ec2-user/app
+        scp  -i private_key README.md ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/app
 
         ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
             cd /home/ec2-user/app &&
