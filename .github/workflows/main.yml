@@ -33,7 +33,14 @@ jobs:
           USER_NAME: ${{secrets.USER_NAME}}
       run: echo "$PRIVATE_KEY" > private_key && chmod 600 private_key && cat private_key
     - name: scp
-      run: scp  -i private_key README.md ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/app
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com
+        username: ec2-user
+        key_path: ./private_key
+        port: 22
+        source: "README.md"
+        target: /home/ec2-user/app
     - name: ssh 
       run: ssh -o StrictHostKeyChecking=no -i private_key ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com '
             cd /home/ec2-user/app &&
