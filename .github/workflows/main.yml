@@ -31,13 +31,15 @@ jobs:
           PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           HOSTNAME: ${{secrets.SSH_HOST}}
           USER_NAME: ${{secrets.USER_NAME}}
-    
+    - name: set key
       run: |
         echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
+    - name: scp
       
         scp  -i private_key README.md ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com:/home/ec2-user/app
+    - name: ssh 
 
-        ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOSTNAME} '
+        ssh -o StrictHostKeyChecking=no -i private_key ec2-user@ec2-43-201-209-69.ap-northeast-2.compute.amazonaws.com '
             cd /home/ec2-user/app &&
             ls README.md
             '
